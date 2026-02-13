@@ -6,17 +6,19 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 config = context.config
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# ---- Import your SQLAlchemy metadata here (we'll add models soon) ----
 try:
-    from app.db.base import Base  # type: ignore
-    # If models.py exists, importing it will register tables on Base.metadata
+    from app.db.base import Base  
     try:
-        from app.db import models  # noqa: F401  # type: ignore
+        from app.db import models  
     except Exception:
         pass
     target_metadata = Base.metadata

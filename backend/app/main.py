@@ -13,6 +13,10 @@ from app.core.config import settings
 from fastapi.middleware.cors import CORSMiddleware
 from app.services.scheduler import start_scheduler, stop_scheduler
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
