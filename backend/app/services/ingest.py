@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 import pandas as pd
 import yfinance as yf
@@ -66,7 +66,6 @@ def ingest_ticker(db: Session, ticker: str, period: str = "1y", interval: str = 
     if bad:
         raise ValueError(f"unexpected multi-ticker columns for {t}: {bad[:10]}")
 
-
     close_series = pd.to_numeric(df["Close"], errors="coerce")
     if close_series.isna().any():
         raise ValueError(f"{t}: Close contains NaN after coercion")
@@ -77,19 +76,22 @@ def ingest_ticker(db: Session, ticker: str, period: str = "1y", interval: str = 
     if (ratio.dropna() > 2.0).any():
         raise ValueError(f"{t}: suspicious close jump detected")
 
-    rows = []
+    rows: list[dict] = []
     for rec in df[["ts", "Open", "High", "Low", "Close", "Volume"]].to_dict(orient="records"):
         ts = pd.Timestamp(rec["ts"])
         if ts.tzinfo is None:
             ts = ts.tz_localize("UTC")
         else:
             ts = ts.tz_convert("UTC")
-        ts = ts.to_pydatetime()
+        ts_dt = ts.to_pydatetime()
+
+        trade_date: date = ts_dt.date()
 
         rows.append(
             {
                 "ticker": t,
-                "ts": ts,
+                "ts": ts_dt,
+                "trade_date": trade_date,
                 "open": float(rec["Open"]) if rec["Open"] is not None else None,
                 "high": float(rec["High"]) if rec["High"] is not None else None,
                 "low": float(rec["Low"]) if rec["Low"] is not None else None,
@@ -110,6 +112,7 @@ def ingest_ticker(db: Session, ticker: str, period: str = "1y", interval: str = 
             "volume": stmt.excluded.volume,
         },
     )
+
     res = db.execute(stmt)
     db.commit()
 
