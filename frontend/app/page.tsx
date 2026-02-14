@@ -106,7 +106,7 @@ export default function Page() {
     <main style={{ padding: 24, fontFamily: "system-ui", maxWidth: 980, margin: "0 auto" }}>
       <h1 style={{ fontSize: 28, marginBottom: 8 }}>Stock Forecasting</h1>
       <p style={{ marginTop: 0, color: "#444" }}>
-        Backend: <a href="http://localhost:8000/health" target="_blank" rel="noreferrer">/health</a>
+        Backend: <a href={`${API_BASE.replace("/api/v1","")}/health`} target="_blank" rel="noreferrer">/health</a>
       </p>
 
       <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap", marginTop: 16 }}>
