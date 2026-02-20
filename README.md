@@ -18,20 +18,17 @@ Full-stack stock forecasting app:
 ## Project structure
 - `frontend/` Next.js UI
 - `backend/` FastAPI API + scheduler + ML services
-- `docker-compose.yml` Postgres + Redis for local dev
+- `docker-compose.yml` local services (Postgres, Redis, backend, frontend)
 
 ## Local setup
 
 ### Prereqs
 - Docker + Docker Compose
-- Python 3.11
-- Poetry
-- Node.js + npm
+- (Optional for running without Docker) Python 3.11 + Poetry
+- (Optional for running without Docker) Node.js + npm
 
-### Start infra (Postgres + Redis)
+### Start everything (recommended)
 From repo root:
 
 ```bash
-docker compose up -d postgres redis
-
-
+docker compose up -d --build
