@@ -8,6 +8,8 @@ from fastapi.responses import Response
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
+
+
 from app.api.v1.router import api_router
 from app.core.config import settings
 from app.db.base import Base
@@ -35,11 +37,13 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
-    allow_credentials=True,
+        allow_origins=[
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "https://material-anyplace-gallon.ngrok-free.dev",
+            "https://stan-rounds-gaming-mailto.trycloudflare.com",
+        ],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

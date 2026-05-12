@@ -20,4 +20,23 @@ class Settings(BaseSettings):
 
     model_window: int = 20
 
+    # Alpaca paper trading — fill in when ready
+    alpaca_api_key: str = ""
+    alpaca_secret_key: str = ""
+    alpaca_base_url: str = "https://paper-api.alpaca.markets"
+
+    # Email notifications — fill in when ready
+    notify_email_to: str = ""
+    notify_email_from: str = ""
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
+
+    # Risk management
+    paper_capital: float = 10000.0
+    max_risk_per_trade_pct: float = 2.0   # 2% of capital = $200 max loss per trade
+    take_profit_pct: float = 4.0          # 4% target
+    stop_loss_pct: float = 2.0            # 2% stop loss
+
 settings = Settings()
